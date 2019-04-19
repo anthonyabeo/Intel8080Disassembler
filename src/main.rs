@@ -31,7 +31,7 @@ fn main() {
     while pc < buf.len() {
         print!("{}: ", format!("{:04}", pc));
         match buf[pc] {
-            0x00 => {  println!("NOP"); pc += 1; }
+            0x00 => { println!("NOP"); pc += 1; }
             0x01 => { print!("LXI B, {}\n", format!("#${}{}", buf[pc + 2],  buf[pc + 1])); pc += 3 }
             0x02 => { println!("STAX B"); pc += 1; }
             0x03 => {}
@@ -234,7 +234,9 @@ fn main() {
                 pc += 3;
             }
             0xC4 => {}
-            0xC5 => {}
+            0xC5 => {
+                println!("PUSH B"); pc += 1;
+            }
             0xC6 => {}
             0xC7 => {}
             0xC8 => {}
@@ -250,7 +252,7 @@ fn main() {
             0xD2 => {}
             0xD3 => {}
             0xD4 => {}
-            0xD5 => {}
+            0xD5 => { println!("PUSH D"); pc += 1; }
             0xD6 => {}
             0xD7 => {}
             0xD8 => {}
@@ -266,7 +268,7 @@ fn main() {
             0xE2 => {}
             0xE3 => {}
             0xE4 => {}
-            0xE5 => {}
+            0xE5 => { println!("PUSH H"); pc += 1; }
             0xE6 => {}
             0xE7 => {}
             0xE8 => {}
@@ -282,7 +284,7 @@ fn main() {
             0xF2 => {}
             0xF3 => {}
             0xF4 => {}
-            0xF5 => { println!("PUSH PSW"); pc += 1; break;}
+            0xF5 => { println!("PUSH PSW"); pc += 1;}
             0xF6 => {}
             0xF7 => {}
             0xF8 => {}

@@ -28,11 +28,18 @@ fn main() {
 
     // println!("{:?}", buf);
     let mut pc = 0_usize;
-    while pc < 20 {
+
+    while pc < buf.len() {
         print!("{}: ", format!("{:04x}", pc));
         match buf[pc] {
             0x00 => { println!("NOP"); pc += 1; }
-            0x01 => { print!("LXI B, {}\n", format!("#${}{}", buf[pc + 2],  buf[pc + 1])); pc += 3 }
+            0x01 => { 
+                print!("LXI B {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
             0x02 => { println!("STAX B"); pc += 1; }
             0x03 => {}
             0x04 => {}
@@ -48,7 +55,13 @@ fn main() {
             0x0E => {}
             0x0F => {}
             0x10 => {}
-            0x11 => {}
+            0x11 => {
+                print!("LXI D {}\n", format!("#${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
             0x12 => {}
             0x13 => {}
             0x14 => {}
@@ -63,8 +76,16 @@ fn main() {
             0x1D => {}
             0x1E => {}
             0x1F => {}
-            0x20 => {}
-            0x21 => {}
+            0x20 => {
+                println!("RIM"); pc += 1;
+            }
+            0x21 => {
+                print!("LXI H {}\n", format!("#${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
             0x22 => {}
             0x23 => {}
             0x24 => {}
@@ -80,8 +101,20 @@ fn main() {
             0x2E => {}
             0x2F => {}
             0x30 => {} 
-            0x31 => {}
-            0x32 => {}
+            0x31 => {
+                print!("LXI SP {}\n", format!("#${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
+            0x32 => {
+                print!("STA {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
             0x33 => {}
             0x34 => {}
             0x35 => {}
@@ -93,7 +126,7 @@ fn main() {
             0x3B => {}
             0x3C => {}
             0x3D => {}
-            0x3E => {}
+            0x3E => { print!("MVI A, #${:02x}\n", buf[pc + 1]); pc += 2;}
             0x3F => {}
             0x40 => {}
             0x41 => {}
@@ -171,7 +204,9 @@ fn main() {
             0x89 => {}
             0x8A => {}
             0x8B => {}
-            0x8C => {}
+            0x8C => {
+                println!("ADD H"); pc += 1;
+            }
             0x8D => {}
             0x8E => {}
             0x8F => {}
@@ -227,7 +262,7 @@ fn main() {
             0xC1 => {}
             0xC2 => {}
             0xC3 => {
-                print!("JMP {}\n", format!("${:02}{:02}", 
+                print!("JMP {}\n", format!("${}{}", 
                     format!("{:02x}", buf[pc + 2]),  
                     format!("{:02x}", buf[pc + 1]))
                 ); 

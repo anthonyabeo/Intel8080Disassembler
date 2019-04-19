@@ -29,7 +29,7 @@ fn main() {
     // println!("{:?}", buf);
     let mut pc = 0_usize;
 
-    while pc < 100 {
+    while pc < buf.len() {
         print!("{}: ", format!("{:04x}", pc));
         match buf[pc] {
             0x00 => { println!("NOP"); pc += 1; }

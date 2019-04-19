@@ -28,8 +28,8 @@ fn main() {
 
     // println!("{:?}", buf);
     let mut pc = 0_usize;
-    while pc < buf.len() {
-        print!("{}: ", format!("{:04}", pc));
+    while pc < 20 {
+        print!("{}: ", format!("{:04x}", pc));
         match buf[pc] {
             0x00 => { println!("NOP"); pc += 1; }
             0x01 => { print!("LXI B, {}\n", format!("#${}{}", buf[pc + 2],  buf[pc + 1])); pc += 3 }
@@ -227,16 +227,14 @@ fn main() {
             0xC1 => {}
             0xC2 => {}
             0xC3 => {
-                print!("JMP {}\n", format!("#${}{}", 
-                    format!("{:x}", buf[pc + 2]),  
-                    format!("{:x}", buf[pc + 1]))
+                print!("JMP {}\n", format!("${:02}{:02}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
                 ); 
                 pc += 3;
             }
             0xC4 => {}
-            0xC5 => {
-                println!("PUSH B"); pc += 1;
-            }
+            0xC5 => { println!("PUSH B"); pc += 1; }
             0xC6 => {}
             0xC7 => {}
             0xC8 => {}

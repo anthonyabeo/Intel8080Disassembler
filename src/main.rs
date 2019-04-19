@@ -48,12 +48,14 @@ fn main() {
             0x07 => {}
             0x08 => {}
             0x09 => {}
-            0x0A => {}
+            0x0A => {
+                println!("LDAX B"); pc += 1;
+            }
             0x0B => {}
             0x0C => {}
             0x0D => { println!("DCR C"); pc += 1; }
             0x0E => {}
-            0x0F => {}
+            0x0F => { println!("RRC");  pc += 1; }
             0x10 => {}
             0x11 => {
                 print!("LXI D {}\n", format!("#${}{}", 
@@ -70,7 +72,7 @@ fn main() {
             0x17 => {}
             0x18 => {}
             0x19 => {}
-            0x1A => {}
+            0x1A => { println!("LDAX D"); pc += 1; }
             0x1B => {}
             0x1C => {}
             0x1D => { println!("DCR E"); pc += 1; }
@@ -120,11 +122,17 @@ fn main() {
             0x37 => {}
             0x38 => {}
             0x39 => {}
-            0x3A => {}
+            0x3A => {
+                print!("LDA {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
             0x3B => {}
             0x3C => {}
             0x3D => { println!("DCR A"); pc += 1; }
-            0x3E => { print!("MVI A, #${:02x}\n", buf[pc + 1]); pc += 2;}
+            0x3E => { print!("MVI A, #${:02x}\n", buf[pc + 1]); pc += 2; }
             0x3F => {}
             0x40 => {}
             0x41 => {}
@@ -202,9 +210,7 @@ fn main() {
             0x89 => {}
             0x8A => {}
             0x8B => {}
-            0x8C => {
-                println!("ADD H"); pc += 1;
-            }
+            0x8C => { println!("ADD H"); pc += 1; }
             0x8D => {}
             0x8E => {}
             0x8F => {}
@@ -224,14 +230,14 @@ fn main() {
             0x9D => {}
             0x9E => {}
             0x9F => {}
-            0xA0 => {}
-            0xA1 => {}
-            0xA2 => {}
-            0xA3 => {}
-            0xA4 => {}
-            0xA5 => {}
-            0xA6 => {}
-            0xA7 => {}
+            0xA0 => { println!("ANA B"); pc += 1; }
+            0xA1 => { println!("ANA C"); pc += 1; }
+            0xA2 => { println!("ANA D"); pc += 1; }
+            0xA3 => { println!("ANA E"); pc += 1; }
+            0xA4 => { println!("ANA H"); pc += 1; }
+            0xA5 => { println!("ANA L"); pc += 1; }
+            0xA6 => { println!("ANA M"); pc += 1; }
+            0xA7 => { println!("ANA A"); pc += 1; }
             0xA8 => {}
             0xA9 => {}
             0xAA => {}
@@ -275,7 +281,13 @@ fn main() {
             0xCA => {}
             0xCB => {} 
             0xCC => {}
-            0xCD => {}
+            0xCD => {
+                print!("CALL {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
             0xCE => {}
             0xCF => {}
             0xD0 => {}
@@ -288,8 +300,14 @@ fn main() {
             0xD7 => {}
             0xD8 => {}
             0xD9 => {}
-            0xDA => {}
-            0xDB => {}
+            0xDA => {
+                print!("JC {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
+            0xDB => { print!("IN #${:02x}\n", buf[pc + 1]); pc += 2; }
             0xDC => {}
             0xDD => {}
             0xDE => {}

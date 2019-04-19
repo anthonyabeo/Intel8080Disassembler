@@ -43,7 +43,7 @@ fn main() {
             0x02 => { println!("STAX B"); pc += 1; }
             0x03 => {}
             0x04 => {}
-            0x05 => {}
+            0x05 => { println!("DCR B"); pc += 1; }
             0x06 => {}
             0x07 => {}
             0x08 => {}
@@ -51,7 +51,7 @@ fn main() {
             0x0A => {}
             0x0B => {}
             0x0C => {}
-            0x0D => {}
+            0x0D => { println!("DCR C"); pc += 1; }
             0x0E => {}
             0x0F => {}
             0x10 => {}
@@ -65,7 +65,7 @@ fn main() {
             0x12 => {}
             0x13 => {}
             0x14 => {}
-            0x15 => {}
+            0x15 => { println!("DCR D"); pc += 1; }
             0x16 => {}
             0x17 => {}
             0x18 => {}
@@ -73,12 +73,10 @@ fn main() {
             0x1A => {}
             0x1B => {}
             0x1C => {}
-            0x1D => {}
+            0x1D => { println!("DCR E"); pc += 1; }
             0x1E => {}
             0x1F => {}
-            0x20 => {
-                println!("RIM"); pc += 1;
-            }
+            0x20 => { println!("RIM"); pc += 1; }
             0x21 => {
                 print!("LXI H {}\n", format!("#${}{}", 
                     format!("{:02x}", buf[pc + 2]),  
@@ -89,7 +87,7 @@ fn main() {
             0x22 => {}
             0x23 => {}
             0x24 => {}
-            0x25 => {}
+            0x25 => { println!("DCR H"); pc += 1; }
             0x26 => {}
             0x27 => {}
             0x28 => {}
@@ -97,7 +95,7 @@ fn main() {
             0x2A => {}
             0x2B => {}
             0x2C => {}
-            0x2D => {}
+            0x2D => { println!("DCR L"); pc += 1; }
             0x2E => {}
             0x2F => {}
             0x30 => {} 
@@ -117,7 +115,7 @@ fn main() {
             }
             0x33 => {}
             0x34 => {}
-            0x35 => {}
+            0x35 => { println!("DCR M"); pc += 1; }
             0x36 => {}
             0x37 => {}
             0x38 => {}
@@ -125,7 +123,7 @@ fn main() {
             0x3A => {}
             0x3B => {}
             0x3C => {}
-            0x3D => {}
+            0x3D => { println!("DCR A"); pc += 1; }
             0x3E => { print!("MVI A, #${:02x}\n", buf[pc + 1]); pc += 2;}
             0x3F => {}
             0x40 => {}

@@ -34,28 +34,28 @@ fn main() {
         match buf[pc] {
             0x00 => { println!("NOP"); pc += 1; }
             0x01 => { 
-                print!("LXI B {}\n", format!("${}{}", 
+                print!("LXI B, {}\n", format!("${}{}", 
                     format!("{:02x}", buf[pc + 2]),  
                     format!("{:02x}", buf[pc + 1]))
                 ); 
                 pc += 3;
             }
             0x02 => { println!("STAX B"); pc += 1; }
-            0x03 => {}
-            0x04 => {}
+            0x03 => { println!("INX B"); pc += 1; }
+            0x04 => { println!("INR B"); pc += 1; }
             0x05 => { println!("DCR B"); pc += 1; }
-            0x06 => {}
-            0x07 => {}
-            0x08 => {}
-            0x09 => {}
+            0x06 => { print!("MVI B, #${:02x}\n", buf[pc + 1]); pc += 2; }
+            0x07 => { println!("RLC"); pc += 1; }
+            0x08 => { println!("NOP"); pc += 1; }
+            0x09 => { println!("DAD B"); pc += 1; }
             0x0A => { println!("LDAX B"); pc += 1; }
-            0x0B => {}
-            0x0C => {}
+            0x0B => { println!("DCX B"); pc += 1; }
+            0x0C => { println!("INR C"); pc += 1;}
             0x0D => { println!("DCR C"); pc += 1; }
-            0x0E => {}
+            0x0E => { print!("MVI C, #${:02x}\n", buf[pc + 1]); pc += 2; }
             0x0F => { println!("RRC");  pc += 1; }
 
-            0x10 => {}
+            0x10 => { println!("NOP"); pc += 1; }
             0x11 => {
                 print!("LXI D {}\n", format!("#${}{}", 
                     format!("{:02x}", buf[pc + 2]),  
@@ -63,20 +63,20 @@ fn main() {
                 ); 
                 pc += 3;
             }
-            0x12 => {}
-            0x13 => {}
-            0x14 => {}
+            0x12 => { println!("STAX D"); pc += 1; }
+            0x13 => { println!("INX D"); pc += 1;}
+            0x14 => { println!("INR D"); pc += 1;}
             0x15 => { println!("DCR D"); pc += 1; }
-            0x16 => {}
-            0x17 => {}
-            0x18 => {}
-            0x19 => {}
+            0x16 => { print!("MVI D, #${:02x}\n", buf[pc + 1]); pc += 2; }
+            0x17 => { println!("RAL"); pc += 1;}
+            0x18 => { println!("NOP"); pc += 1; }
+            0x19 => { println!("DAD D"); pc += 1;}
             0x1A => { println!("LDAX D"); pc += 1; }
-            0x1B => {}
-            0x1C => {}
+            0x1B => { println!("DCX D"); pc += 1;}
+            0x1C => { println!("INR E"); pc += 1;}
             0x1D => { println!("DCR E"); pc += 1; }
-            0x1E => {}
-            0x1F => {}
+            0x1E => { print!("MVI E, #${:02x}\n", buf[pc + 1]); pc += 2; }
+            0x1F => { println!("RAR"); pc += 1; }
 
             0x20 => { println!("RIM"); pc += 1; }
             0x21 => {
@@ -86,22 +86,34 @@ fn main() {
                 ); 
                 pc += 3;
             }
-            0x22 => {}
-            0x23 => {}
-            0x24 => {}
+            0x22 => {
+                print!("SHLD {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
+            0x23 => { println!("INX H"); pc += 1;}
+            0x24 => { println!("INR H"); pc += 1;}
             0x25 => { println!("DCR H"); pc += 1; }
-            0x26 => {}
+            0x26 => { print!("MVI H, #${:02x}\n", buf[pc + 1]); pc += 2; }
             0x27 => { println!("DAA"); pc += 1; }
-            0x28 => {}
-            0x29 => {}
-            0x2A => {}
-            0x2B => {}
-            0x2C => {}
+            0x28 => { println!("NOP"); pc += 1; }
+            0x29 => { println!("DAD H"); pc += 1; }
+            0x2A => {
+                print!("LHLD {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
+            0x2B => { println!("DCX H"); pc += 1; }
+            0x2C => { println!("INR L"); pc += 1; }
             0x2D => { println!("DCR L"); pc += 1; }
-            0x2E => {}
-            0x2F => {}
+            0x2E => { print!("MVI L, #${:02x}\n", buf[pc + 1]); pc += 2; }
+            0x2F => { println!("CMA"); pc += 1;}
 
-            0x30 => {} 
+            0x30 => { println!("NOP"); pc += 1; } 
             0x31 => {
                 print!("LXI SP {}\n", format!("#${}{}", 
                     format!("{:02x}", buf[pc + 2]),  
@@ -116,13 +128,13 @@ fn main() {
                 ); 
                 pc += 3;
             }
-            0x33 => {}
-            0x34 => {}
+            0x33 => { println!("INX SP"); pc += 1;}
+            0x34 => { println!("INR M"); pc += 1;}
             0x35 => { println!("DCR M"); pc += 1; }
-            0x36 => {}
+            0x36 => { print!("MVI M, #${:02x}\n", buf[pc + 1]); pc += 2; }
             0x37 => { print!("STC"); pc += 1; }
             0x38 => { print!("NOP"); pc += 1; }
-            0x39 => {}
+            0x39 => { println!("DAD SP"); pc += 1; }
             0x3A => {
                 print!("LDA {}\n", format!("${}{}", 
                     format!("{:02x}", buf[pc + 2]),  
@@ -130,11 +142,11 @@ fn main() {
                 ); 
                 pc += 3;
             }
-            0x3B => {}
-            0x3C => {}
+            0x3B => { println!("DCX SP"); pc += 1; }
+            0x3C => { println!("INR A"); pc += 1;}
             0x3D => { println!("DCR A"); pc += 1; }
             0x3E => { print!("MVI A, #${:02x}\n", buf[pc + 1]); pc += 2; }
-            0x3F => {}
+            0x3F => { println!("CMC"); pc += 1; }
 
             0x40 => { println!("MOV B, B"); pc += 1; }
             0x41 => { println!("MOV B, C"); pc += 1; }
@@ -331,16 +343,28 @@ fn main() {
             0xCE => { print!("ACI #${:02x}\n", buf[pc + 1]); pc += 2; }
             0xCF => { println!("RST 1"); pc += 1; }
 
-            0xD0 => {}
-            0xD1 => {}
-            0xD2 => {}
-            0xD3 => {}
-            0xD4 => {}
+            0xD0 => { println!("RNC"); pc += 1; }
+            0xD1 => { println!("POP D"); pc += 1; }
+            0xD2 => {
+                print!("JNC {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
+            0xD3 => { print!("OUT #${:02x}\n", buf[pc + 1]); pc += 2; }
+            0xD4 => {
+                print!("CNC {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
             0xD5 => { println!("PUSH D"); pc += 1; }
-            0xD6 => {}
-            0xD7 => {}
-            0xD8 => {}
-            0xD9 => {}
+            0xD6 => { print!("SUI #${:02x}\n", buf[pc + 1]); pc += 2; }
+            0xD7 => { println!("RST 2"); pc += 1; }
+            0xD8 => { println!("RC"); pc += 1;}
+            0xD9 => { println!("RET"); pc += 1; }
             0xDA => {
                 print!("JC {}\n", format!("${}{}", 
                     format!("{:02x}", buf[pc + 2]),  
@@ -349,42 +373,116 @@ fn main() {
                 pc += 3;
             }
             0xDB => { print!("IN #${:02x}\n", buf[pc + 1]); pc += 2; }
-            0xDC => {}
-            0xDD => {}
-            0xDE => {}
-            0xDF => {}
-            0xE0 => {}
-            0xE1 => {}
-            0xE2 => {}
-            0xE3 => {}
-            0xE4 => {}
+            0xDC => {
+                print!("CC {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
+            0xDD => {
+                print!("CALL {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
+            0xDE => { print!("SBI #${:02x}\n", buf[pc + 1]); pc += 2; }
+            0xDF => { println!("RST 3"); pc += 1; }
+
+            0xE0 => { println!("RPO"); pc += 1; }
+            0xE1 => { println!("POP H"); pc += 1; }
+            0xE2 => {
+                print!("JPO {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
+            0xE3 => { println!("XTHL"); pc += 1; }
+            0xE4 => {
+                print!("CPO {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
             0xE5 => { println!("PUSH H"); pc += 1; }
-            0xE6 => {}
-            0xE7 => {}
-            0xE8 => {}
-            0xE9 => {}
-            0xEA => {}
+            0xE6 => { print!("ANI #${:02x}\n", buf[pc + 1]); pc += 2; }
+            0xE7 => { println!("RST 4"); pc += 1; }
+            0xE8 => { println!("RPE"); pc += 1;}
+            0xE9 => { println!("PCHL"); pc += 1;}
+            0xEA => {
+                print!("JPE {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
             0xEB => { println!("XCHG"); pc += 1; }
-            0xEC => {}
-            0xED => {}
-            0xEE => {}
-            0xEF => {} 
-            0xF0 => {}
-            0xF1 => {}
-            0xF2 => {}
-            0xF3 => {}
-            0xF4 => {}
+            0xEC => {
+                print!("CPE {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
+            0xED => {
+                print!("CALL {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
+            0xEE => { print!("XRI #${:02x}\n", buf[pc + 1]); pc += 2; }
+            0xEF => { println!("RST 5"); pc += 1; } 
+
+            0xF0 => { println!("RP"); pc += 1; }
+            0xF1 => { println!("POP PSW"); pc += 1; }
+            0xF2 => {
+                print!("JP {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
+            0xF3 => { println!("DI"); pc += 1; }
+            0xF4 => {
+                print!("CP {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
             0xF5 => { println!("PUSH PSW"); pc += 1;}
-            0xF6 => {}
-            0xF7 => {}
-            0xF8 => {}
-            0xF9 => {}
-            0xFA => {}
-            0xFB => {}
-            0xFC => {}
-            0xFD => {}
+            0xF6 => { print!("ORI #${:02x}\n", buf[pc + 1]); pc += 2;}
+            0xF7 => { println!("RST 6"); pc += 1; }
+            0xF8 => { println!("RM"); pc += 1; }
+            0xF9 => { println!("SPHL"); pc += 1; }
+            0xFA => {
+                print!("JM {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
+            0xFB => { println!("EI"); pc += 1; }
+            0xFC => {
+                print!("CM {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
+            0xFD => {
+                print!("CALL {}\n", format!("${}{}", 
+                    format!("{:02x}", buf[pc + 2]),  
+                    format!("{:02x}", buf[pc + 1]))
+                ); 
+                pc += 3;
+            }
             0xFE => { print!("CPI #${:02x}\n", buf[pc + 1]); pc += 2; }
-            0xFF => {}
+            0xFF => { println!("RST 7"); pc += 1; }
         }
     }
 }
